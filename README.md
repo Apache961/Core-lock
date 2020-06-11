@@ -38,7 +38,7 @@ public DistributeLock distributeLock(RedisTemplate redisTemplate) {
 第三步-1：代码中注入锁实例，并使用
 ```java
 
-    @RestController
+@RestController
 @RequestMapping("/test")
 public class TestController {
 
@@ -113,70 +113,70 @@ public class TestController {
 3. 默认重试次数10次
 
 # API说明
-1. **public String lock(String lockKey)**
-	参数1：**lockKey** 锁的key
-	返回值：成功返回**requestId**，失败返回**null**
+1. **public String lock(String lockKey)**  
+	参数1：**lockKey** 锁的key  
+	返回值：成功返回**requestId**，失败返回**null**  
 	
-2. **public String lock(String lockKey, int expireTime)**
-	参数1：**lockKey** 锁的key
-	参数2：**expireTime** 过期时间 单位：毫秒
-	返回值：成功返回**requestId**，失败返回**null**
+2. **public String lock(String lockKey, int expireTime)**  
+	参数1：**lockKey** 锁的key  
+	参数2：**expireTime** 过期时间 单位：毫秒  
+	返回值：成功返回**requestId**，失败返回**null**  
 	
-3. **public String lock(String lockKey, String requestID)**
-	参数1：**lockKey** 锁的key
-	参数2：**requestID** 上次加锁返回的requestId，重入
-	返回值：成功返回**requestId**，失败返回**null**
+3. **public String lock(String lockKey, String requestID)**  
+	参数1：**lockKey** 锁的key  
+	参数2：**requestID** 上次加锁返回的requestId，重入  
+	返回值：成功返回**requestId**，失败返回**null**  
 	
-4. **public String lock(String lockKey, String requestID, int expireTime)**
-	参数1：**lockKey** 锁的key
-	参数2：**requestID** 上次加锁返回的requestId，重入
-	参数3：**expireTime** 过期时间 单位：毫秒
-	返回值：成功返回**requestId**，失败返回**null**
+4. **public String lock(String lockKey, String requestID, int expireTime)**  
+	参数1：**lockKey** 锁的key  
+	参数2：**requestID** 上次加锁返回的requestId，重入  
+	参数3：**expireTime** 过期时间 单位：毫秒  
+	返回值：成功返回**requestId**，失败返回**null**  
 	
-5. **public String lockAndRetry(String lockKey)**
-	参数1：**lockKey** 锁的key
-	返回值：成功返回**requestId**，失败返回**null**
+5. **public String lockAndRetry(String lockKey)**  
+	参数1：**lockKey** 锁的key  
+	返回值：成功返回**requestId**，失败返回**null**  
 	
-6. **public String lockAndRetry(String lockKey, String requestID)**
-	参数1：**lockKey** 锁的key
-	参数2：**requestID** 上次加锁返回的requestId，重入
-	返回值：成功返回**requestId**，失败返回**null**
+6. **public String lockAndRetry(String lockKey, String requestID)**  
+	参数1：**lockKey** 锁的key  
+	参数2：**requestID** 上次加锁返回的requestId，重入  
+	返回值：成功返回**requestId**，失败返回**null**  
 	
-7. **public String lockAndRetry(String lockKey, int expireTime)**
-	参数1：**lockKey** 锁的key
-	参数2：**expireTime** 过期时间 单位：毫秒
-	返回值：成功返回**requestId**，失败返回**null**
+7. **public String lockAndRetry(String lockKey, int expireTime)**  
+	参数1：**lockKey** 锁的key  
+	参数2：**expireTime** 过期时间 单位：毫秒  
+	返回值：成功返回**requestId**，失败返回**null**  
 	
-8. **public String lockAndRetry(String lockKey, int expireTime, int retryCount)**
-	参数1：**lockKey** 锁的key
-	参数2：**expireTime** 过期时间 单位：毫秒
-	参数3：**retryCount** 重试次数
-	返回值：成功返回**requestId**，失败返回**null**
+8. **public String lockAndRetry(String lockKey, int expireTime, int retryCount)**  
+	参数1：**lockKey** 锁的key  
+	参数2：**expireTime** 过期时间 单位：毫秒  
+	参数3：**retryCount** 重试次数  
+	返回值：成功返回**requestId**，失败返回**null**  
 	
-9. **public String lockAndRetry(String lockKey, String requestID, int expireTime)**
-	参数1：**lockKey** 锁的key
-	参数2：**requestID** 上次加锁返回的requestId，重入
-	参数3：**expireTime** 过期时间 单位：毫秒
-	返回值：成功返回**requestId**，失败返回**null**
+9. **public String lockAndRetry(String lockKey, String requestID, int expireTime)**  
+	参数1：**lockKey** 锁的key  
+	参数2：**requestID** 上次加锁返回的requestId，重入  
+	参数3：**expireTime** 过期时间 单位：毫秒  
+	返回值：成功返回**requestId**，失败返回**null**  
 	
-10. **public String lockAndRetry(String lockKey, String requestID, int expireTime, int retryCount)**
-	参数1：**lockKey** 锁的key
-	参数2：**requestID** 上次加锁返回的requestId，重入
-	参数3：**expireTime** 过期时间 单位：毫秒
-	参数4：**retryCount** 重试次数
-	返回值：成功返回**requestId**，失败返回**null**
+10. **public String lockAndRetry(String lockKey, String requestID, int expireTime, int retryCount)**  
+	参数1：**lockKey** 锁的key  
+	参数2：**requestID** 上次加锁返回的requestId，重入  
+	参数3：**expireTime** 过期时间 单位：毫秒  
+	参数4：**retryCount** 重试次数  
+	返回值：成功返回**requestId**，失败返回**null**  
 	
-11. **public String lockAndRetry(String lockKey, String requestID, int expireTime, int retryCount, int retryTime)**
-	参数1：**lockKey** 锁的key
-	参数2：**requestID** 上次加锁返回的requestId，重入
-	参数3：**expireTime** 过期时间 单位：毫秒
-	参数4：**retryCount** 重试次数
-	参数5：**retryTime** 重试时间 单位：毫秒
-	返回值：成功返回**requestId**，失败返回**null**
+11. **public String lockAndRetry(String lockKey, String requestID, int expireTime, int retryCount, int retryTime)**  
+	参数1：**lockKey** 锁的key  
+	参数2：**requestID** 上次加锁返回的requestId，重入  
+	参数3：**expireTime** 过期时间 单位：毫秒  
+	参数4：**retryCount** 重试次数  
+	参数5：**retryTime** 重试时间 单位：毫秒  
+	返回值：成功返回**requestId**，失败返回**null**  
 	
-12.  **public boolean unLock(String lockKey, String requestID)**
-	参数1：**lockKey** 锁的key
-	参数2：**requestID** 上次加锁返回的requestId，重入
-	返回值：成功返回**true**，失败返回**false**
+12.  **public boolean unLock(String lockKey, String requestID)**  
+	参数1：**lockKey** 锁的key  
+	参数2：**requestID** 上次加锁返回的requestId，重入  
+	返回值：成功返回**true**，失败返回**false**  
 
 
