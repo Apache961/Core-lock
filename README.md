@@ -36,10 +36,81 @@ public DistributeLock distributeLock(RedisTemplate redisTemplate) {
 }
 ```
 第三步-1：代码中注入锁实例，并使用
-![](http://192.168.1.151:4999/server/../Public/Uploads/2020-06-11/5ee1776bd0544.png)
+```java
+
+    @RestController
+@RequestMapping("/test")
+public class TestController {
+
+    @Autowired
+    DistributeLock distributeLock;
+
+    @PostMapping("/testLock4")
+    public Object testLock4(@RequestParam("lockKey") String lockKey, @RequestParam("requestID") String requestID, @RequestParam("expireTime") int expireTime) {
+        System.out.println("=====[testLock4]=====");
+        System.out.println("lockKey:" + lockKey);
+        System.out.println("requestID:" + requestID);
+        System.out.println("expireTime:" + expireTime);
+        String requestId = distributeLock.lock(lockKey, requestID, expireTime);
+        return requestId == null ? "kong" : requestId;
+    }
+
+    @PostMapping("/testTryAndRetry7")
+    public Object testTryAndRetry7(@RequestParam("lockKey") String lockKey, @RequestParam("requestID") String requestID, @RequestParam("expireTime") int expireTime, @RequestParam("retryCount") int retryCount, @RequestParam("retryTime") int retryTime) {
+        System.out.println("=====[testTryAndRetry7]=====");
+        System.out.println("lockKey:" + lockKey);
+        System.out.println("requestID:" + requestID);
+        System.out.println("expireTime:" + expireTime);
+        System.out.println("retryCount:" + retryCount);
+        System.out.println("retryTime:" + retryTime);
+        String requestId = distributeLock.lockAndRetry(lockKey, requestID, expireTime, retryCount, retryTime);
+        return requestId == null ? "kong" : requestId;
+    }
+
+    @PostMapping("/testUnLock")
+    public Object testUnLock(@RequestParam("lockKey") String lockKey, @RequestParam("requestID") String requestID) {
+        System.out.println("=====[testTryAndRetry7]=====");
+        System.out.println("lockKey:" + lockKey);
+        System.out.println("requestID:" + requestID);
+        boolean result = distributeLock.unLock(lockKey, requestID);
+        return result;
+    }
+}
+```
 
 第三步-2：也可以通过注解的方式来使用
-![](http://192.168.1.151:4999/server/../Public/Uploads/2020-06-11/5ee177c7c3241.png)
+```java
+@PostMapping("/testAnnotation1")
+    @Lock(lockKey = "123")
+    public Object testAnnotation1() {
+        System.out.println("=====[testAnnotation1]=====");
+        boolean result = true;
+        try {
+            TimeUnit.SECONDS.sleep(10);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @PostMapping("/testAnnotation2")
+    @Lock(lockKey = "123",retryCount = -1)
+    public Object testAnnotation2() {
+        System.out.println("=====[testAnnotation2]=====");
+        boolean result = true;
+        try {
+//            TimeUnit.SECONDS.sleep(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+```
+
+# 默认值
+1. 默认失效时间一分钟
+2. 默认重试间隔时间300毫秒
+3. 默认重试次数10次
 
 # API说明
 1. **public String lock(String lockKey)**
@@ -107,7 +178,5 @@ public DistributeLock distributeLock(RedisTemplate redisTemplate) {
 	参数1：**lockKey** 锁的key
 	参数2：**requestID** 上次加锁返回的requestId，重入
 	返回值：成功返回**true**，失败返回**false**
-
-
 
 
